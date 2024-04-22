@@ -72,15 +72,8 @@ public class EmployeeAction extends ActionBase {
         if (checkToken()) {
 
             //パラメータの値を元に従業員情報のインスタンスを作成する
-            EmployeeView ev = new EmployeeView(
-                    null,
-                    getRequestParam(AttributeConst.EMP_CODE),
-                    getRequestParam(AttributeConst.EMP_NAME),
-                    getRequestParam(AttributeConst.EMP_PASS),
-                    toNumber(getRequestParam(AttributeConst.EMP_ADMIN_FLG)),
-                    null,
-                    null,
-                    AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
+            EmployeeView ev = new EmployeeView(null,getRequestParam(AttributeConst.EMP_CODE), getRequestParam(AttributeConst.EMP_NAME),getRequestParam(AttributeConst.EMP_PASS),
+                    toNumber(getRequestParam(AttributeConst.EMP_ADMIN_FLG)),null,null,AttributeConst.DEL_FLAG_FALSE.getIntegerValue());
 
             //アプリケーションスコープからpepper文字列を取得
             String pepper = getContextScope(PropertyConst.PEPPER);
@@ -109,6 +102,28 @@ public class EmployeeAction extends ActionBase {
             }
 
         }
+    }
+    /**
+     * 詳細画面を表示する
+     * @throws ServletException
+     * @throws IOException
+     */
+    public void show() throws ServletException, IOException {
+
+        //idを条件に従業員データを取得する
+        EmployeeView ev = service.findOne(toNumber(getRequestParam(AttributeConst.EMP_ID)));
+
+        if (ev == null || ev.getDeleteFlag() == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()) {
+
+            //データが取得できなかった、または論理削除されている場合はエラー画面を表示
+            forward(ForwardConst.FW_ERR_UNKNOWN);
+            return;
+        }
+
+        putRequestScope(AttributeConst.EMPLOYEE, ev); //取得した従業員情報
+
+        //詳細画面を表示
+        forward(ForwardConst.FW_EMP_SHOW);
     }
 
 }
