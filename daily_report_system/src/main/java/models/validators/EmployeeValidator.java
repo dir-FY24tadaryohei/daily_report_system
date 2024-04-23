@@ -1,5 +1,4 @@
 package models.validators;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,10 +6,6 @@ import actions.views.EmployeeView;
 import constants.MessageConst;
 import services.EmployeeService;
 
-/**
- * 従業員インスタンスに設定されている値のバリデーションを行うクラス
- *
- */
 public class EmployeeValidator {
 
     /**

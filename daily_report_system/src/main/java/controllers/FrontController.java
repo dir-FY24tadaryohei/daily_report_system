@@ -2,7 +2,6 @@ package controllers;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,36 +12,31 @@ import actions.ActionBase;
 import actions.UnknownAction;
 import constants.ForwardConst;
 
+
 /**
- * フロントコントローラー
- *
+ * コントローラー
  */
 @WebServlet("/")
 public class FrontController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
     public FrontController() {
         super();
     }
 
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+	        throws ServletException, IOException {
+	    //パラメータに該当するActionクラスのインスタンス
+	    ActionBase action = getAction(request,response);
+	    
+	    //サーブレットコンテキスト、リクエスト、レスポンスをActionインスタンスのフィールドに設定
+	    action.init(getServletContext(),request,response);
+	    
+	    action.process();
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+	}
 
-        //パラメータに該当するActionクラスのインスタンス
-        ActionBase action = getAction(request, response);
-
-        //サーブレットコンテキスト、リクエスト、レスポンスをActionインスタンスのフィールドに設定
-        action.init(getServletContext(), request, response);
-
-        //Actionクラスの処理を呼び出し
-        action.process();
-    }
-
-
-    /**
+	/**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -85,3 +79,5 @@ public class FrontController extends HttpServlet {
     }
 
 }
+
+

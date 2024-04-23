@@ -11,7 +11,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import actions.views.EmployeeView;
 import constants.AttributeConst;
 import constants.ForwardConst;
 import constants.PropertyConst;
@@ -199,10 +198,10 @@ public abstract class ActionBase {
     /**
      * リクエストスコープにパラメーターを設定する
      * @param key パラメーター名
-     * @param employeeView パラメーターの値
+     * @param value パラメーターの値
      */
-    protected <V> void putRequestScope(AttributeConst key, EmployeeView employeeView) {
-        request.setAttribute(key.getValue(), employeeView);
+    protected <V> void putRequestScope(AttributeConst key, V value) {
+        request.setAttribute(key.getValue(), value);
     }
 
     /**
